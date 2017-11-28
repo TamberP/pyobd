@@ -42,7 +42,6 @@ def intake_m_pres(code):  # in kPa
     code = hex_to_int(code)
     return code / 0.14504
 
-
 def rpm(code):
     code = hex_to_int(code)
     return code / 4
@@ -72,7 +71,6 @@ def temp(code):
     code = hex_to_int(code)
     return code - 40
 
-
 def cpass(code):
     # fixme
     return code
@@ -82,6 +80,9 @@ def fuel_trim_percent(code):
     code = hex_to_int(code)
     return (code - 128.0) * 100.0 / 128
 
+def calc_fuel_level(code):
+    code = hex_to_int(code)
+    return (100/255)*code
 
 def dtc_decrypt(code):
     # first byte is byte after PID and without spaces
@@ -121,7 +122,6 @@ def bin(s):
 
 def hex_to_bitstring(str):
     return bin(int(str, 16))
-
 
 class Sensor:
     def __init__(self, shortName, sensorName, sensorcommand, sensorValueFunction, u):
@@ -176,7 +176,6 @@ SENSORS = [
     Sensor("engine_mil_time", "  Engine Run with MIL on",
            "014D", sec_to_min, "min"),
 ]
-
 
 #___________________________________________________________
 
