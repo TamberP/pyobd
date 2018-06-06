@@ -56,6 +56,19 @@ def scanSerial():
           else:
               raise
 
+    for i in range(256):
+      try: #scan Bluetooth rfcomm bindings
+        s = serial.Serial("/dev/rfcomm"+str(i))
+        available.append(s.portstr)
+        s.close()   # explicit close 'cause of delayed GC in java
+      except serial.SerialException:
+        pass
+      except OSError, e:
+          if e.errno == 2:
+              pass
+          else:
+              raise
+
     # ELM-USB shows up as /dev/tty.usbmodemXXXX, where XXXX is a changing hex string
     # on connection; so we have to search through all 64K options
     if len(platform.mac_ver()[0])!=0:  #search only on MAC
