@@ -113,6 +113,9 @@ class OBDPort:
          debug_display(self._notify_window, 2, "atz response:" + self.ELMver)
          self.send_command("ate0")  # echo off
          debug_display(self._notify_window, 2, "ate0 response:" + self.get_result())
+         self.send_command("ATSP0")  # select protocol automatically
+         debug_display(self._notify_window, 2, "ATSP0 response:" + self.get_result())
+
          self.send_command("0100")
          ready = self.get_result()
          
