@@ -6,11 +6,17 @@ def scanSerial():
     available = []
     for i in range(256):
       try: #scan standart ttyS*
-        s = serial.Serial(i)
+        s = serial.Serial(str(i))
         available.append(s.portstr)
         s.close()   # explicit close 'cause of delayed GC in java
       except serial.SerialException:
         pass
+      except OSError, e:
+          if e.errno == 2:
+              pass
+          else:
+              raise
+
     for i in range(256):
       try: #scan USB ttyACM
         s = serial.Serial("/dev/ttyACM"+str(i))
@@ -18,6 +24,12 @@ def scanSerial():
         s.close()   # explicit close 'cause of delayed GC in java
       except serial.SerialException:
         pass
+      except OSError, e:
+          if e.errno == 2:
+              pass
+          else:
+              raise
+
     for i in range(256):
       try:
         s = serial.Serial("/dev/ttyUSB"+str(i))
@@ -25,6 +37,12 @@ def scanSerial():
         s.close()   # explicit close 'cause of delayed GC in java
       except serial.SerialException:
         pass
+      except OSError, e:
+          if e.errno == 2:
+              pass
+          else:
+              raise
+
     for i in range(256):
       try:
         s = serial.Serial("/dev/ttyd"+str(i))
@@ -32,7 +50,12 @@ def scanSerial():
         s.close()   # explicit close 'cause of delayed GC in java
       except serial.SerialException:
         pass
-        
+      except OSError, e:
+          if e.errno == 2:
+              pass
+          else:
+              raise
+
     # ELM-USB shows up as /dev/tty.usbmodemXXXX, where XXXX is a changing hex string
     # on connection; so we have to search through all 64K options
     if len(platform.mac_ver()[0])!=0:  #search only on MAC
